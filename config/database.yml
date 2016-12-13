@@ -22,7 +22,7 @@ test:
 
 production:
   adapter: postgresql
-  adapter: localhost
+  host: localhost
   encoding: unicode
   database: testblog_prod
   pool: 5
