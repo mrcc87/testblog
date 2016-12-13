@@ -5,7 +5,6 @@ set :application, 'testblog'
 set :deploy_user, 'deploy'
 
 
-set :scm, :git
 set :repo_url, "https://github.com/mrcc87/testblog.git"
 
 
