@@ -1,14 +1,23 @@
 # config valid only for current version of Capistrano
 lock "3.7.0"
 
-set :application, "my_app_name"
-set :repo_url, "git@example.com:me/my_repo.git"
+set :application, 'testblog'
+set :deploy_user, 'deploy'
 
+
+set :scm, :git
+set :repo_url, "https://github.com/mrcc87/testblog.git"
+
+
+set :rbenv_type, :user
+set :rbenv_ruby, '2.3.0'
+
+#set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-# set :deploy_to, "/var/www/my_app_name"
+set :deploy_to, "/home/deploy/apps/testblog"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -31,3 +40,16 @@ set :repo_url, "git@example.com:me/my_repo.git"
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+#
+namespace :deploy do
+
+  desc 'Restart application'
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute :touch, release_path.join('tmp/restart.txt')
+    end
+  end
+
+  after :publishing, 'deploy:restart'
+  after :finishing, 'deploy:cleanup'
+end
